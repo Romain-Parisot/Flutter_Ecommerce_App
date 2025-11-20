@@ -1,0 +1,71 @@
+[
+  {
+    "id": "FW-001",
+    "title": "Stère de chêne premium",
+    "price": 129.9,
+    "thumbnail": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=600&q=60",
+    "images": [
+      "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=60",
+      "https://images.unsplash.com/photo-1456926631375-92c8ce872def?auto=format&fit=crop&w=1200&q=60"
+    ],
+    "description": "Bois dur de chêne fendu en bûches de 33 cm, séché en séchoir moins de 15% d'humidité. Idéal pour poêles haut rendement.",
+    "category": "chene",
+    "steres": 1.0,
+    "logLengthCm": 33,
+    "logDiameterCm": 12,
+    "woodType": "Chêne",
+    "dryness": "<15%",
+    "availabilityDays": 3
+  },
+  {
+    "id": "FW-002",
+    "title": "Pack 3 stères mélange feuillus",
+    "price": 279.0,
+    "thumbnail": "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=600&q=60",
+    "images": [
+      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=60"
+    ],
+    "description": "Mélange hêtre / charme fendu en 25 cm, idéal pour foyers fermés. Séchage naturel 18 mois.",
+    "category": "melange",
+    "steres": 3.0,
+    "logLengthCm": 25,
+    "logDiameterCm": 10,
+    "woodType": "Hêtre & Charme",
+    "dryness": "18%",
+    "availabilityDays": 5
+  },
+  {
+    "id": "FW-003",
+    "title": "Boulets compressés résineux",
+    "price": 349.0,
+    "thumbnail": "https://images.unsplash.com/photo-1456926631375-92c8ce872def?auto=format&fit=crop&w=600&q=60",
+    "images": [
+      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=60"
+    ],
+    "description": "Palette de 96 sacs de pellets premium 100% résineux certifiés ENplus A1.",
+    "category": "pellets",
+    "steres": 1.8,
+    "logLengthCm": 0,
+    "logDiameterCm": 6,
+    "woodType": "Résineux",
+    "dryness": "<10%",
+    "availabilityDays": 2
+  },
+  {
+    "id": "FW-004",
+    "title": "Stère de bouleau allume-feu",
+    "price": 109.0,
+    "thumbnail": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=600&q=60",
+    "images": [
+      "https://images.unsplash.com/photo-1456926631375-92c8ce872def?auto=format&fit=crop&w=1200&q=60"
+    ],
+    "description": "Bouleau fendillé 30 cm, flamme vive et montée rapide en température. Séchage 12 mois.",
+    "category": "bouleau",
+    "steres": 1.0,
+    "logLengthCm": 30,
+    "logDiameterCm": 9,
+    "woodType": "Bouleau",
+    "dryness": "16%",
+    "availabilityDays": 4
+  }
+]

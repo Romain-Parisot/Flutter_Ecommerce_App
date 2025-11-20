@@ -5,26 +5,62 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
+import 'dart:async';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_application_3/main.dart';
+import 'package:flutter_application_3/src/app.dart';
+import 'package:flutter_application_3/src/features/auth/application/auth_backend.dart';
+
+class _StubAuthBackend implements AuthBackend {
+  final _controller = StreamController<AuthSession?>.broadcast();
+
+  @override
+  Stream<AuthSession?> get authStateChanges => _controller.stream;
+
+  @override
+  AuthSession? get currentUser => null;
+
+  @override
+  Future<void> createUserWithEmailAndPassword(
+    String email,
+    String password,
+  ) async {}
+
+  @override
+  void dispose() {
+    _controller.close();
+  }
+
+  @override
+  Future<void> signInAnonymously() async {}
+
+  @override
+  Future<void> signInWithEmailAndPassword(
+    String email,
+    String password,
+  ) async {}
+
+  @override
+  Future<void> signOut() async {}
+
+  @override
+  Future<void> signInWithGoogle() async {}
+}
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  final stubBackend = _StubAuthBackend();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  testWidgets('Login screen renders brand title', (tester) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [authBackendProvider.overrideWithValue(stubBackend)],
+        child: const ShopApp(),
+      ),
+    );
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.text('ShopFlutter Bois de Chauffage'), findsOneWidget);
+    expect(find.textContaining('Connexion'), findsWidgets);
   });
 }
