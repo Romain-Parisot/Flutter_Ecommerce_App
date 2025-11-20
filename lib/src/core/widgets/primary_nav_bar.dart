@@ -29,6 +29,12 @@ class PrimaryNavBar extends StatelessWidget {
       label: 'Commandes',
       route: '/orders',
     ),
+    _NavItem(
+      icon: Icons.person_outline,
+      selectedIcon: Icons.person,
+      label: 'Profil',
+      route: '/profile',
+    ),
   ];
 
   int _indexForLocation(String path) {

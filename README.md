@@ -1,60 +1,63 @@
-# ShopFlutter – Bois de chauffage
+# ShopFlutter
 
-Application Flutter de démonstration pour parcourir un catalogue de bois de chauffage,
-gérer un panier, passer commande et consulter l’historique. L’interface est optimisée
-pour le web (PWA) et les plateformes mobiles.
+Sujet: un e-commerce spécialisé dans la vente de bois de chauffage pour particuliers.
+
+Application Flutter MVVM qui couvre l’intégralité d’un parcours e-commerce
+sur Web/Android/iOS : catalogue filtrable, fiche produit, panier persistant, checkout simulé et historique des commandes.
+
+## Fonctionnalités principales
+
+- Catalogue & recherche : JSON mis en cache localement, filtres bois/prix chargement
+	asynchrone via `CatalogNotifier`.
+- Détails produit : galerie, specs, ajout au panier, bouton de partage Android, UI Cupertino iOS.
+- Panier persistant (`SharedPreferences`) : quantités éditables, suppression, total, navigation vers
+	le checkout.
+- Checkout mocké : création d’un `Order` avec UUID, vidage du panier, snackbar de confirmation.
+- Commandes : liste paginée rafraîchissable, données stockées côté client.
 
 ## Authentification
 
-- Identifiants par défaut : `demo@shopflutter.app` / `azerty123`
-- Mode démo : bouton "Mode démo – accès immédiat" sur l’écran de connexion.
+- Firebase Auth email/mot de passe pour la production (configurer `lib/firebase_options.dart` via
+	`flutterfire configure`).
+- Tant que le fichier contient les valeurs placeholder, un backend local persistant prend le relais
+	pour permettre des tests rapides.
+- Google Sign-In et mode démo (session anonyme) sont disponibles.
 
-L’application détecte automatiquement si Firebase est configuré. Sans configuration
-(`firebase_options.dart` contient encore les valeurs `REPLACE_WITH`), un backend
-local persistant prend le relais : vos comptes sont stockés dans `SharedPreferences`
-et les identifiants ci-dessus fonctionnent immédiatement après `flutter run`.
+## Adaptations plateformes
 
-## Démarrage rapide
+- **Web** : PWA manifest + service worker + bannière d’installation custom.
+- **Android** : partage natif (`share_plus`) sur la fiche produit.
+- **iOS** : fiche produit rendue dans un `CupertinoPageScaffold`.
+
+## Lancer le projet
 
 ```powershell
 flutter pub get
 flutter run
 ```
 
-Pour activer Firebase, remplacez les valeurs de `firebase_options.dart` en lançant
-`flutterfire configure` puis relancez l’application.
+## Tests & couverture
+
+- `flutter test --coverage` génère `coverage/lcov.info`.
+- `dart run tool/coverage_summary.dart` affiche la synthèse et échoue si la variable d’environnement
+	`MIN_COVERAGE` est définie et non respectée (CI → seuil 50 %).
+- Suite de tests unitaires (notifiers, repositories, modèles) + widget tests, dont
+	`test/full_app_flow_test.dart` qui couvre le flux complet.
 
 ## CI/CD GitHub Actions
 
-Une pipeline automatisée est disponible dans `.github/workflows/ci_cd.yml`. Elle
-est déclenchée sur chaque `push`/`pull request` vers `main` ainsi qu’à la demande
-(`workflow_dispatch`). Les étapes exécutées sont :
+- Workflow `.github/workflows/ci_cd.yml` : Flutter installé, dépendances, tests + couverture, build web,
+	installation Node 20, `vercel` CLI puis `vercel deploy build/web --prod --yes`.
+- Variables/flgs : `MIN_COVERAGE=50` pour le step de contrôle.
+- Secrets requis (`Settings > Secrets and variables > Actions`) : `VERCEL_TOKEN`, `VERCEL_ORG_ID`,
+	`VERCEL_PROJECT_ID`.
 
-1. Installation de Flutter (canal stable) et mise en cache des dépendances.
-2. `flutter pub get` puis `flutter test --coverage` pour garantir la qualité.
-3. `flutter build web --release` pour produire l’application statique.
-4. Installation de Node.js + `vercel` CLI et déploiement automatique sur Vercel.
+## Checklist du sujet
 
-⚠️ Le job échoue si la couverture descend sous **50 %** : la commande
-`dart run tool/coverage_summary.dart` est lancée après `flutter test --coverage`
-avec la variable `MIN_COVERAGE=50`. Adaptez cette valeur dans le workflow si
-vos besoins changent.
-
-### Secrets à ajouter dans GitHub
-
-Dans **Settings › Secrets and variables › Actions** du dépôt, créez :
-
-- `VERCEL_TOKEN` : token personnel généré via `https://vercel.com/account/tokens`.
-- `VERCEL_ORG_ID` : identifiant de votre organisation/compte, visible via `npx vercel org ls` ou dans le dashboard Vercel (`/settings` › *ID*).
-- `VERCEL_PROJECT_ID` : identifiant du projet Vercel cible (`Project Settings › General › Project ID`).
-
-Les secrets sont nécessaires pour la dernière étape. Sans eux, la pipeline s’arrête
-après les tests/builds, ce qui permet aussi de l’exécuter pour de simples vérifications.
-
-### Déploiement manuel depuis GitHub Actions
-
-- Rendez-vous dans l’onglet **Actions**, choisissez le workflow *CI-CD* puis
-	cliquez sur **Run workflow** pour lancer une livraison manuelle (utile après
-	configuration des secrets).
-- Vous pouvez suivre les logs des étapes et récupérer l’URL du déploiement via
-	le job « Deploy to Vercel (production) ».
+- [x] Parcours complet catalogue → produit → panier → checkout → commandes.
+- [x] Architecture `go_router` + guard + repositories/cache.
+- [x] Auth Firebase email/password (fallback local) + Google Sign-In.
+- [x] Adaptations Web/Android/iOS.
+- [x] Tests unitaires & widgets + couverture ≥ 50 %.
+- [x] CI/CD GitHub Actions avec build web + déploiement Vercel.
+- [ ] Bonus Stripe / publication store : non traité.

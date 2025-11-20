@@ -11,6 +11,7 @@ import '../../features/catalog/presentation/pages/product_detail_page.dart';
 import '../../features/checkout/presentation/pages/checkout_page.dart';
 import '../../features/home/presentation/pages/home_page.dart';
 import '../../features/orders/presentation/pages/orders_page.dart';
+import '../../features/profile/presentation/pages/profile_page.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final notifier = RouterNotifier(ref);
@@ -42,6 +43,10 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const CheckoutPage(),
       ),
       GoRoute(path: '/orders', builder: (context, state) => const OrdersPage()),
+      GoRoute(
+        path: '/profile',
+        builder: (context, state) => const ProfilePage(),
+      ),
     ],
   );
 });
