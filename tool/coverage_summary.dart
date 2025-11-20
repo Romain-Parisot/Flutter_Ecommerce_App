@@ -20,6 +20,24 @@ void main() {
     print('No executable lines found.');
     return;
   }
-  final pct = (lhTotal / lfTotal * 100).toStringAsFixed(2);
+
+  final coverage = lhTotal / lfTotal * 100;
+  final pct = coverage.toStringAsFixed(2);
   print('Coverage total: $lhTotal/$lfTotal ($pct%)');
+
+  final minEnv = Platform.environment['MIN_COVERAGE'];
+  if (minEnv != null && minEnv.trim().isNotEmpty) {
+    final minValue = double.tryParse(minEnv.trim());
+    if (minValue == null) {
+      stderr.writeln('Invalid MIN_COVERAGE value: "$minEnv".');
+      exitCode = 1;
+      return;
+    }
+    if (coverage + 1e-6 < minValue) {
+      stderr.writeln(
+        'Coverage $pct% is below required minimum of ${minValue.toStringAsFixed(2)}%.',
+      );
+      exitCode = 1;
+    }
+  }
 }

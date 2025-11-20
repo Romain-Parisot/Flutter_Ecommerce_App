@@ -35,6 +35,11 @@ est déclenchée sur chaque `push`/`pull request` vers `main` ainsi qu’à la d
 3. `flutter build web --release` pour produire l’application statique.
 4. Installation de Node.js + `vercel` CLI et déploiement automatique sur Vercel.
 
+⚠️ Le job échoue si la couverture descend sous **50 %** : la commande
+`dart run tool/coverage_summary.dart` est lancée après `flutter test --coverage`
+avec la variable `MIN_COVERAGE=50`. Adaptez cette valeur dans le workflow si
+vos besoins changent.
+
 ### Secrets à ajouter dans GitHub
 
 Dans **Settings › Secrets and variables › Actions** du dépôt, créez :

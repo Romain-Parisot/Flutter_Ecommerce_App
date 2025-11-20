@@ -33,6 +33,11 @@ jobs:
       - name: Run tests with coverage
         run: flutter test --coverage
 
+      - name: Enforce coverage threshold
+        run: dart run tool/coverage_summary.dart
+        env:
+          MIN_COVERAGE: "50"
+
       - name: Build Flutter web bundle
         run: flutter build web --release
 
