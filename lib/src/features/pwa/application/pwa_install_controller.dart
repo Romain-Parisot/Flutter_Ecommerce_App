@@ -56,6 +56,7 @@ class PwaInstallController extends StateNotifier<PwaInstallState> {
   PwaInstallController(this._service)
       : super(PwaInstallState.initial(_service.canInstall)) {
     _sub = _service.canInstallStream.listen((value) {
+      if (!mounted) return;
       state = state.copyWith(canInstall: value, lastResult: null);
     });
   }
@@ -69,6 +70,9 @@ class PwaInstallController extends StateNotifier<PwaInstallState> {
     }
     state = state.copyWith(isPrompting: true, lastResult: null);
     final result = await _service.promptInstall();
+    if (!mounted) {
+      return result;
+    }
     state = state.copyWith(
       canInstall: _service.canInstall,
       isPrompting: false,
